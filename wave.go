@@ -2,8 +2,9 @@ package wave
 
 import (
 	"encoding/binary"
-	"io"
 	"errors"
+	"io"
+	"math"
 )
 
 const (
@@ -85,4 +86,16 @@ func (this *File) Write(out io.Writer) error {
 	out.Write(this.Data)
 
 	return nil
+}
+
+func (this *File) AppendSine(frequency, duration, volume uint32) {
+	var i, datalen uint32
+	var omega float64
+
+	datalen = duration * this.Samplerate / 1000
+	omega = 2 * math.Pi * float64(frequency)
+	for i = 0; i < datalen; i++ {
+		data := 127 + byte(float64(volume)*math.Sin(float64(i)*omega/float64(this.Samplerate)))
+		this.Data = append(this.Data, data)
+	}
 }
