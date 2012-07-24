@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/papplampe/wave"
-	"math"
 	"os"
 )
 
@@ -19,7 +18,7 @@ func main() {
 	defer fd.Close()
 
 	file := wave.CreateFile(PCM, 1, 44100, 8)
-	file.AppendSine(file, 440, 5000, 20)
+	file.AppendSine(440, 5000, 20)
 	err = file.Write(fd)
 	if err != nil {
 		println(err.Error())
